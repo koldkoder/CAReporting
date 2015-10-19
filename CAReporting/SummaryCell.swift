@@ -8,11 +8,19 @@
 
 import UIKit
 
+@objc protocol SummaryCellDelegate {
+    optional func summaryCell(summaryCell: SummaryCell)
+}
+
+
 class SummaryCell: UITableViewCell {
 
     @IBOutlet weak var keyLabel: UILabel!
     @IBOutlet weak var dataLabel: UILabel!
     @IBOutlet weak var differenceLabel: UILabel!
+    
+    weak var delegate: SummaryCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

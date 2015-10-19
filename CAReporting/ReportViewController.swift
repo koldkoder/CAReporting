@@ -33,19 +33,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     var delegate: ReportViewControllerDelegate?
     
-    /*required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    convenience init() {
-        self.init(viewState: ViewState.Summary, destinationType: DestinationType.SCM)
-    }
-    
-    init(viewState: ViewState, destinationType: DestinationType) {
-        currentState = viewState
-        currentDestination = destinationType
-        super.init(nibName: nil, bundle: nil)
-    }*/
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,23 +46,17 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         print(currentState)
         print(delegate)
         if currentState != nil && currentDestination != nil {
-            setNavTitle()g
-            loadData("from view load")
+            setNavTitle()
+            loadData()
         }
-        
         
     }
     
-    func loadData(caller: String?) {
-        print(caller)
+    func loadData() {
         switch currentState! {
         case ViewState.Summary:
             let endpointUrl = getSummaryEndpoint()
-            //print(endpointUrl)
             CARClient.sharedInstance.getSummary(endpointUrl, completion: { (summaries, error) -> () in
-               //print(caller)
-               //print(summaries)
-               //print(error)
                print(endpointUrl)
                 if (summaries != nil) {
                     self.summaries = summaries
@@ -83,6 +65,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             })
             break
         case ViewState.Detail:
+            self.details = []
             break
         }
         
@@ -140,6 +123,22 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        switch currentState! {
+        case ViewState.Summary:
+            //var summary = summaries![indexPath.row]
+            let reportViewController = UIStoryboard.reportViewController()
+            reportViewController?.currentDestination = currentDestination
+            reportViewController?.currentState = ViewState.Detail
+            navigationController?.pushViewController(reportViewController!, animated: true)
+            
+        break
+        case ViewState.Detail:
+            break
+            
+        }
+    }
+    
     func reloadView(viewType: String, destinationType: String) {
         
         var viewState = ViewState.Summary
@@ -186,10 +185,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         default:
             break
         }
-        containerViewController.reportViewController.loadData("from configure")
-        //print(containerViewController.reportViewController.summaries!.count)
-        //containerViewController.reportViewController.reportTableView.reloadData()
-        //print(containerViewController.reportViewController.currentDestination)
+        containerViewController.reportViewController.loadData()
         containerViewController.reportViewController.navigationItem.title = destinationType
     }
     
