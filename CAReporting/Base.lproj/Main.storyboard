@@ -158,7 +158,9 @@
                             <constraint firstItem="dq6-FT-ydq" firstAttribute="top" secondItem="pzg-dN-KIY" secondAttribute="bottom" id="elZ-ol-Si3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="toh-XK-PrG"/>
+                    <navigationItem key="navigationItem" id="toh-XK-PrG">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger" id="agp-79-Y0e"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="reportTableView" destination="pzg-dN-KIY" id="FC0-HA-UKU"/>
                     </connections>
@@ -249,4 +251,7 @@
             <point key="canvasLocation" x="84" y="500"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="hamburger" width="64" height="64"/>
+    </resources>
 </document>

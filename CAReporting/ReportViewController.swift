@@ -65,6 +65,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             })
             break
         case ViewState.Detail:
+            JTProgressHUD.hide()
             self.details = []
             break
         }
