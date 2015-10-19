@@ -43,18 +43,10 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Container view did load")
         reportViewController = UIStoryboard.reportViewController()
         reportViewController.currentState = reportViewState!
         reportViewController.currentDestination = reportDestinationType!
         reportViewController.delegate = self
-        print(reportViewController.currentState)
-        print(reportViewController.currentDestination)
-        print(reportViewController.delegate)
-        print(reportViewController)
-        
-        
-        
         reportNavigationController = UIStoryboard.reportNavigationController()
         reportNavigationController.setViewControllers( [reportViewController], animated: true)
         

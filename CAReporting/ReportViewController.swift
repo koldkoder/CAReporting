@@ -37,14 +37,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self)
         reportTableView.delegate = self
         reportTableView.dataSource = self
         reportTableView.rowHeight = UITableViewAutomaticDimension
         reportTableView.estimatedRowHeight = 100
-        print(currentDestination)
-        print(currentState)
-        print(delegate)
+ 
         if currentState != nil && currentDestination != nil {
             setNavTitle()
             loadData()
@@ -57,7 +54,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         case ViewState.Summary:
             let endpointUrl = getSummaryEndpoint()
             CARClient.sharedInstance.getSummary(endpointUrl, completion: { (summaries, error) -> () in
-               print(endpointUrl)
                 if (summaries != nil) {
                     self.summaries = summaries
                     self.reportTableView.reloadData()
@@ -123,7 +119,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print(indexPath.row)
         switch currentState! {
         case ViewState.Summary:
             //var summary = summaries![indexPath.row]
@@ -132,12 +129,14 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             reportViewController?.currentState = ViewState.Detail
             navigationController?.pushViewController(reportViewController!, animated: true)
             
-        break
+            break
         case ViewState.Detail:
             break
             
         }
     }
+    
+  
     
     func reloadView(viewType: String, destinationType: String) {
         
@@ -163,7 +162,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     }
     
     func configureViewController(viewType: String, destinationType: String, containerViewController: ContainerViewController) {
-        print("Configure conatiner view controller")
         switch viewType {
         case "Summary":
             containerViewController.reportViewController.currentState = ViewState.Summary
