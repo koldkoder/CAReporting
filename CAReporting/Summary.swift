@@ -23,8 +23,6 @@ class Summary: NSObject {
         let current = dictionary["current"] as! NSDictionary
         currentVal = current[defaultMetric] as! Double
         let difference = dictionary["difference"] as? NSDictionary
-        differenceVal = 0
-        differencePercentage = 0
         if let _ = difference {
             differenceVal = difference![defaultMetric] as! Double
             differencePercentage = differenceVal/currentVal * 100

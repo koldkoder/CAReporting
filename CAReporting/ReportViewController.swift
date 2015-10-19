@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JTProgressHUD
 
 enum ViewState{
     case Summary
@@ -37,10 +38,12 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false
         reportTableView.delegate = self
         reportTableView.dataSource = self
         reportTableView.rowHeight = UITableViewAutomaticDimension
         reportTableView.estimatedRowHeight = 100
+        JTProgressHUD.show()
  
         if currentState != nil && currentDestination != nil {
             setNavTitle()
@@ -54,6 +57,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         case ViewState.Summary:
             let endpointUrl = getSummaryEndpoint()
             CARClient.sharedInstance.getSummary(endpointUrl, completion: { (summaries, error) -> () in
+                JTProgressHUD.hide()
                 if (summaries != nil) {
                     self.summaries = summaries
                     self.reportTableView.reloadData()

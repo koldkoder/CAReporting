@@ -30,7 +30,18 @@ class SummaryCell: UITableViewCell {
         didSet {
             keyLabel.text = summary.displayString
             dataLabel.text = String(summary.currentVal)
-            differenceLabel.text = "\(summary.differenceVal)  (  \(summary.differencePercentage) )"
+            if summary.differenceVal == nil {
+                differenceLabel.hidden = true
+            }
+            else {
+                differenceLabel.text = "\(summary.differenceVal) (" + String(format: "%.2f", summary.differencePercentage) + "%)"
+                if summary.differenceVal > 0 {
+                    differenceLabel.textColor = UIColor(red: 0.42, green: 0.66, blue: 0.31, alpha: 1.0)
+                }
+                else if summary.differenceVal < 0 {
+                    differenceLabel.textColor = UIColor(red: 0.88, green: 0.40, blue: 0.40, alpha: 1.0)
+                }
+            }
         }
     }
 

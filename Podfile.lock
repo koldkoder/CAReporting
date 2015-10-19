@@ -21,13 +21,16 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Charts (2.1.4)
+  - JTProgressHUD (1.0.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
   - Charts
+  - JTProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 8e4e60500beb8bec644cf575beee72990a76d399
   Charts: 870589b6b4bf8468baacea8869c28983d71f602c
+  JTProgressHUD: d2519c41e664acb554932aac12f5a94b47d88a69
 
 COCOAPODS: 0.38.2
