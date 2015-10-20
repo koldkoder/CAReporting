@@ -274,5 +274,23 @@
             </objects>
             <point key="canvasLocation" x="84" y="500"/>
         </scene>
+        <!--Metrics View Controller-->
+        <scene sceneID="Tze-Zb-k1p">
+            <objects>
+                <viewController storyboardIdentifier="MetricsViewController" id="zdD-0F-do7" customClass="MetricsViewController" customModule="CAReporting" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5bZ-ZN-cqZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="U9X-Gu-oxg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WJ9-Hg-5Mv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CEw-1i-rou" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="607" y="453"/>
+        </scene>
     </scenes>
 </document>

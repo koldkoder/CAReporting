@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AB0A4C51BD6FAEE000527FD /* MetricsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB0A4C41BD6FAEE000527FD /* MetricsViewController.swift */; };
 		21F53DA71BD43D6D00CC09E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F53DA61BD43D6D00CC09E4 /* AppDelegate.swift */; };
 		21F53DAC1BD43D6D00CC09E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21F53DAA1BD43D6D00CC09E4 /* Main.storyboard */; };
 		21F53DAE1BD43D6D00CC09E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21F53DAD1BD43D6D00CC09E4 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AB0A4C41BD6FAEE000527FD /* MetricsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetricsViewController.swift; sourceTree = "<group>"; };
 		21F53DA31BD43D6D00CC09E4 /* CAReporting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAReporting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21F53DA61BD43D6D00CC09E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21F53DAB1BD43D6D00CC09E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				21F53DD71BD4427300CC09E4 /* SidePanelViewController.swift */,
 				21F53DDD1BD4464B00CC09E4 /* ReportViewController.swift */,
 				21F53DE31BD458B300CC09E4 /* LoginViewController.swift */,
+				0AB0A4C41BD6FAEE000527FD /* MetricsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB0A4C51BD6FAEE000527FD /* MetricsViewController.swift in Sources */,
 				21F53DEF1BD4617300CC09E4 /* DetailGraphCell.swift in Sources */,
 				21F53DD81BD4427300CC09E4 /* SidePanelViewController.swift in Sources */,
 				21F53DE61BD45EDB00CC09E4 /* Summary.swift in Sources */,

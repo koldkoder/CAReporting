@@ -41,6 +41,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var orientation = ""
     var chart = LineChartView();
     var saveChartButton: UIBarButtonItem!
+    var metricsButton: UIBarButtonItem!
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -55,6 +56,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         self.topConstraint.constant = 0
         saveChartButton = UIBarButtonItem(title:"Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveChart")
         saveChartButton.width = 0
+        metricsButton = UIBarButtonItem(title:"Metrics", style: UIBarButtonItemStyle.Plain, target: self, action: "onClickMetrics")
         
         if currentState != nil && currentDestination != nil {
             setNavTitle()
@@ -62,6 +64,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             loadData()
         }
 
+    }
+    
+    func onClickMetrics(){
+        let vc = storyboard?.instantiateViewControllerWithIdentifier("MetricsViewController") as! MetricsViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func saveChart() {
@@ -90,7 +97,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func loadData() {
         switch currentState! {
         case ViewState.Summary:
-            self.navigationItem.rightBarButtonItem = nil
+            self.navigationItem.rightBarButtonItem = metricsButton
             self.reportTableView.separatorStyle = UITableViewCellSeparatorStyle.None
             self.reportTableView.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
             let endpointUrl = getSummaryEndpoint()
