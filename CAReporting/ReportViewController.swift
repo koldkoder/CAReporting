@@ -99,12 +99,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
                         print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
                         self.addGraph(self.details![self.selectedGraphMetric])
                     }
-                    let y = self.navigationController?.navigationBar.frame.height
-                    if(self.orientation == "landscape"){
-                        self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height - 50)
-                    }else if(self.orientation == "potrait"){
-                        self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
-                    }
                     self.reportTableView.reloadData()
                 }
             })
@@ -114,9 +108,15 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     }
     
     func addGraph(detail:Detail) {
-        self.topConstraint.constant = 200
         let y = self.navigationController?.navigationBar.frame.height
-        let frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
+        var frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
+        
+        if(self.orientation == "landscape"){
+            frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height - 50)
+        }
+        self.topConstraint.constant = 200
+        //Remove existing chart
+        chart.removeFromSuperview()
         chart = LineChartView(frame: frame)
 
         chart.delegate = self
