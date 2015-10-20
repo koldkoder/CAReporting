@@ -29,12 +29,12 @@ class SummaryCell: UITableViewCell {
     var summary: Summary! {
         didSet {
             keyLabel.text = summary.displayString
-            dataLabel.text = String(summary.currentVal)
+            dataLabel.text = summary.currentValueString
             if summary.differenceVal == nil {
                 differenceLabel.hidden = true
             }
             else {
-                differenceLabel.text = "\(summary.differenceVal) (" + String(format: "%.2f", summary.differencePercentage) + "%)"
+                differenceLabel.text = "\(summary.differenceValueString) (" + String(format: "%.2f", summary.differencePercentage) + "%)"
                 if summary.differenceVal > 0 {
                     differenceLabel.textColor = UIColor(red: 0.42, green: 0.66, blue: 0.31, alpha: 1.0)
                 }

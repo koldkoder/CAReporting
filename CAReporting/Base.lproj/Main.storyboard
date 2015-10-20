@@ -106,22 +106,36 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DetailCEll" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9X-VE-3Jr">
-                                                    <rect key="frame" x="109" y="8" width="74" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DetailLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9X-VE-3Jr">
+                                                    <rect key="frame" x="8" y="8" width="150" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="74" id="6HU-qf-nwD"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="fBd-w3-OO2"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3f-Dv-aH1">
+                                                    <rect key="frame" x="268.5" y="8" width="43.5" height="20.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="U4d-tk-pZO"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="r9X-VE-3Jr" secondAttribute="bottom" constant="6.5" id="RUj-T1-Civ"/>
-                                                <constraint firstItem="r9X-VE-3Jr" firstAttribute="leading" secondItem="VQB-L4-QgC" secondAttribute="leading" constant="109" id="ueo-Hm-4iB"/>
-                                                <constraint firstItem="r9X-VE-3Jr" firstAttribute="top" secondItem="VQB-L4-QgC" secondAttribute="topMargin" id="yXF-1K-7gW"/>
+                                                <constraint firstItem="r9X-VE-3Jr" firstAttribute="top" secondItem="VQB-L4-QgC" secondAttribute="top" constant="8" id="Djq-sA-hhD"/>
+                                                <constraint firstItem="r9X-VE-3Jr" firstAttribute="leading" secondItem="VQB-L4-QgC" secondAttribute="leading" constant="8" id="Oad-pV-bL6"/>
+                                                <constraint firstItem="E3f-Dv-aH1" firstAttribute="top" secondItem="VQB-L4-QgC" secondAttribute="top" constant="8" id="iaM-LW-xri"/>
+                                                <constraint firstAttribute="trailing" secondItem="E3f-Dv-aH1" secondAttribute="trailing" constant="8" id="ome-17-gGA"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="fieldName" destination="r9X-VE-3Jr" id="mzg-hV-k1V"/>
+                                            <outlet property="fieldValue" destination="E3f-Dv-aH1" id="31E-x0-nYk"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailGraphCell" id="DsX-7T-b5g" customClass="DetailGraphCell" customModule="CAReporting" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="257" width="320" height="44"/>

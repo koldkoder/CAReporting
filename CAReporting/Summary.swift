@@ -13,12 +13,16 @@ class Summary: NSObject {
     var key: String!
     var displayString: String!
     var currentVal: Double!
+    var currentValueString: String!
     var differenceVal: Double!
+    var differenceValueString: String!
     var differencePercentage: Double!
+    var type: String!
     
-    init(dictionary: NSDictionary, defaultMetric: String) {
+    init(dictionary: NSDictionary, defaultMetric: String, field: NSDictionary) {
         key = dictionary["key"] as! String
         displayString = dictionary["displayString"] as! String
+        
         //let data = dictionary["data"] as! NSDictionary
         let current = dictionary["current"] as! NSDictionary
         currentVal = current[defaultMetric] as! Double
@@ -28,14 +32,63 @@ class Summary: NSObject {
             differencePercentage = differenceVal/currentVal * 100
         }
         
+        self.type = field["type"] as! String
+        if(self.type != nil) {
+            switch(self.type) {
+            case "float":
+                self.currentValueString = String(format: "%.2f", self.currentVal)
+                if self.differenceVal != nil {
+                    if self.differenceVal >= 0 {
+                        self.differenceValueString = String(format: "%.2f", self.differenceVal)
+                    }
+                    else {
+                        self.differenceValueString = "-" + String(format: "%.2f", -1*self.differenceVal)
+                    }
+                }
+                break
+            case "currency":
+                self.currentValueString = "$" + String(format: "%.2f", self.currentVal)
+                if self.differenceVal != nil {
+                    if self.differenceVal >= 0 {
+                        self.differenceValueString = "$" + String(format: "%.2f", self.differenceVal)
+                    } else {
+                        self.differenceValueString = "$" + String(format: "%.2f", -1*self.differenceVal)
+                    }
+                }
+                break
+            case "percent":
+                self.currentValueString = String(format: "%.2f", self.currentVal) + "%"
+                if self.differenceVal != nil {
+                    if self.differenceVal >= 0 {
+                        self.differenceValueString = String(format: "%.2f", differenceVal) + "%"
+                    } else {
+                        self.differenceValueString = String(format: "%.2f", -1*differenceVal) + "%"
+                    }
+                }
+                break
+            default:
+                self.currentValueString = String(format: "%.0f", self.currentVal)
+                if self.differenceVal != nil {
+                    if self.differenceVal >= 0 {
+                        self.differenceValueString = String(format: "%.0f", self.differenceVal)
+                    } else {
+                        self.differenceValueString = String(format: "%.0f", -1*self.differenceVal)
+                    }
+                }
+                break
+            }
+        }
+        
     }
     
     class func summaryWithArray(dict: NSDictionary) -> [Summary] {
         var summaries = [Summary]()
         let defaultMetric = dict["defaultMetric"] as! String
         let dictArray = dict["data"] as! [NSDictionary]
+        let fieldDescription = dict["fieldDescription"] as! NSDictionary
+        let field = fieldDescription[defaultMetric] as! NSDictionary
         for dictionary in dictArray {
-            summaries.append(Summary(dictionary: dictionary, defaultMetric: defaultMetric))
+            summaries.append(Summary(dictionary: dictionary, defaultMetric: defaultMetric, field: field))
         }
         return summaries
     }

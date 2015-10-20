@@ -41,4 +41,17 @@ class CARClient {
         
     }
     
+    
+    func getDetails(url: String, completion:(details: [Detail]?, error: NSError?) -> ()) {
+        AFHTTPRequestOperationManager().GET(url, parameters: nil, success: { (opearation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            let details =
+            Detail.detailWithArray(response as! NSDictionary)
+            completion(details: details, error: nil)
+            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                print("Error getting Summary from url", error)
+                completion(details: nil, error: error)
+        })
+        
+    }
+    
 }

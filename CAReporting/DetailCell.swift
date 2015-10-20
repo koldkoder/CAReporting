@@ -10,6 +10,16 @@ import UIKit
 
 class DetailCell: UITableViewCell {
 
+    @IBOutlet weak var fieldValue: UILabel!
+    @IBOutlet weak var fieldName: UILabel!
+    
+    var detail: Detail! {
+        didSet {
+            fieldName.text = detail.displayString
+            fieldValue.text = detail.valueString
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -35,7 +35,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var currentDestination: DestinationType?
     
     var delegate: ReportViewControllerDelegate?
-    
+    var selectedSummary: Summary?
 
     
     override func viewDidLoad() {
@@ -82,8 +82,14 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             })
             break
         case ViewState.Detail:
-            JTProgressHUD.hide()
-            self.details = []
+            let endpointUrl = getDetailEndpoint()
+            CARClient.sharedInstance.getDetails(endpointUrl, completion: { (details, error) -> () in
+                JTProgressHUD.hide()
+                if (details != nil) {
+                    self.details = details
+                    self.reportTableView.reloadData()
+                }
+            })
             break
         }
         
@@ -122,9 +128,9 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             return 0;
         case ViewState.Detail:
             if let _ = details {
-                return 0;
+                return details!.count
             }
-            return details!.count + 1 //extra for graph
+            return 0;
         }
     }
     
@@ -137,6 +143,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             return summaryCell
         case ViewState.Detail:
             let detailCell = tableView.dequeueReusableCellWithIdentifier("DetailCell", forIndexPath: indexPath) as! DetailCell
+            let detail = details![indexPath.row]
+            detailCell.detail = detail
             return detailCell
         }
     }
@@ -148,6 +156,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             let reportViewController = UIStoryboard.reportViewController()
             reportViewController?.currentDestination = currentDestination
             reportViewController?.currentState = ViewState.Detail
+            reportViewController?.selectedSummary = self.summaries![indexPath.row]
             reportViewController?.delegate = self.delegate
             navigationController?.pushViewController(reportViewController!, animated: true)
             break
@@ -234,10 +243,9 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func getDetailEndpoint() -> String {
         switch currentDestination! {
         case DestinationType.SEM:
-            return "http://sem-dev05.sv.walmartlabs.com:3000/api/metrics/summary.json"
+            return "http://sem-dev05.sv.walmartlabs.com:3000/api/metrics/details.json?time_period_key=" + (selectedSummary?.key)!
         case DestinationType.Ads:
-            return "https://wmx.walmartlabs.com/wpa/organizations/10001/organization_reports/1/summary?field_description=true&user_token=249e2db392fc0d55b484f53464e4e689b7bd6830ba8987927af5b9a8677e9b6edeb77f83722028dca672793a41199d36af34e68cee8ab0604c42216b07b5e399"
-            
+            return "https://wmx.walmartlabs.com/wpa/organizations/10001/organization_reports/1/by_range?field_description=true&user_token=249e2db392fc0d55b484f53464e4e689b7bd6830ba8987927af5b9a8677e9b6edeb77f83722028dca672793a41199d36af34e68cee8ab0604c42216b07b5e399&time_period_key=" + (selectedSummary?.key)!
         }
     }
 
