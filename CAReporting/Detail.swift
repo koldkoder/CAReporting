@@ -36,19 +36,22 @@ class Detail: NSObject {
     
     func getValueString(value: Double) -> String {
         var string = ""
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
         if self.type != nil {
             switch(self.type) {
             case "float":
-                string = String(format: "%.2f", value)
+                string = formatter.stringFromNumber(value)!
                 break
             case "currency":
-                string = "$" + String(format: "%.2f", value)
+                string = "$" + formatter.stringFromNumber(value)!
                 break
             case "percent":
-                string = String(format: "%.2f", value) + "%"
+                string =  formatter.stringFromNumber(value)! + "%"
                 break
             default:
-                string = String(format: "%.0f", value)
+                string = formatter.stringFromNumber(value)!
                 break
             }
         }

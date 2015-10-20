@@ -33,46 +33,48 @@ class Summary: NSObject {
         }
         
         self.type = field["type"] as! String
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         if(self.type != nil) {
             switch(self.type) {
             case "float":
-                self.currentValueString = String(format: "%.2f", self.currentVal)
+                self.currentValueString =  formatter.stringFromNumber(self.currentVal)
                 if self.differenceVal != nil {
                     if self.differenceVal >= 0 {
-                        self.differenceValueString = String(format: "%.2f", self.differenceVal)
+                        self.differenceValueString = formatter.stringFromNumber(self.differenceVal)
                     }
                     else {
-                        self.differenceValueString = "-" + String(format: "%.2f", -1*self.differenceVal)
+                        self.differenceValueString = "-" + formatter.stringFromNumber(-1*self.differenceVal)!
                     }
                 }
                 break
             case "currency":
-                self.currentValueString = "$" + String(format: "%.2f", self.currentVal)
+                self.currentValueString = "$" + formatter.stringFromNumber(self.currentVal)!
                 if self.differenceVal != nil {
                     if self.differenceVal >= 0 {
-                        self.differenceValueString = "$" + String(format: "%.2f", self.differenceVal)
+                        self.differenceValueString = "$" + formatter.stringFromNumber(self.differenceVal)!
                     } else {
-                        self.differenceValueString = "$" + String(format: "%.2f", -1*self.differenceVal)
+                        self.differenceValueString = "-$" + formatter.stringFromNumber(-1*self.differenceVal)!
                     }
                 }
                 break
             case "percent":
-                self.currentValueString = String(format: "%.2f", self.currentVal) + "%"
+                self.currentValueString =  formatter.stringFromNumber(self.currentVal)! + "%"
                 if self.differenceVal != nil {
                     if self.differenceVal >= 0 {
-                        self.differenceValueString = String(format: "%.2f", differenceVal) + "%"
+                        self.differenceValueString = formatter.stringFromNumber(self.differenceVal)! + "%"
                     } else {
-                        self.differenceValueString = String(format: "%.2f", -1*differenceVal) + "%"
+                        self.differenceValueString = "-" + formatter.stringFromNumber(-1*self.differenceVal)! + "%"
                     }
                 }
                 break
             default:
-                self.currentValueString = String(format: "%.0f", self.currentVal)
+                self.currentValueString = formatter.stringFromNumber(self.currentVal)
                 if self.differenceVal != nil {
                     if self.differenceVal >= 0 {
-                        self.differenceValueString = String(format: "%.0f", self.differenceVal)
+                        self.differenceValueString = formatter.stringFromNumber(self.differenceVal)
                     } else {
-                        self.differenceValueString = String(format: "%.0f", -1*self.differenceVal)
+                        self.differenceValueString = "-" + formatter.stringFromNumber(-1*self.differenceVal)!
                     }
                 }
                 break
