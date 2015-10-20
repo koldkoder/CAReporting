@@ -38,6 +38,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var delegate: ReportViewControllerDelegate?
     var selectedSummary: Summary?
     var selectedGraphMetric = 0
+    var orientation = "potrait"
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -91,6 +92,12 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             CARClient.sharedInstance.getDetails(endpointUrl, completion: { (details, error) -> () in
                 JTProgressHUD.hide()
                 if (details != nil) {
+                    if(self.orientation == "potrait"){
+                        self.reportTableView.hidden = false
+                    }else{
+                        self.reportTableView.hidden = true
+                    }
+                    
                     self.details = details
                     if (self.details![self.selectedGraphMetric].hasGraph()) {
                         print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
@@ -303,7 +310,14 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        self.loadData()
+        if currentState! == ViewState.Detail{
+            if size.width > size.height {
+                orientation = "landscape"
+            }else{
+                orientation = "potrait"
+            }
+            self.loadData()
+        }
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
     }
     
