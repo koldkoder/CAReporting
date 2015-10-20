@@ -37,6 +37,16 @@ class ContainerViewController: UIViewController {
         }
     }
     
+    func openSidePanel() {
+        if !leftNavExpanded {
+          addLeftPanelViewController()
+          animateLeftPanel(true)
+        }
+        else {
+            animateLeftPanel(false)
+        }
+    }
+    
     var leftViewController: SidePanelViewController?
     let centerPanelExpandedOffset: CGFloat = 60
     
@@ -49,6 +59,18 @@ class ContainerViewController: UIViewController {
         reportViewController.delegate = self
         reportNavigationController = UIStoryboard.reportNavigationController()
         reportNavigationController.setViewControllers( [reportViewController], animated: true)
+        
+        let hambugerImage = UIImage(named: "hamburger")
+        
+        let button = UIButton(type: UIButtonType.Custom)
+        button.setBackgroundImage(hambugerImage, forState: UIControlState.Normal)
+        
+        button.addTarget(self, action: "openSidePanel", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let frame = CGRectMake(10, 30, 32, 32)
+        button.frame = frame;
+        button.setBackgroundImage(hambugerImage, forState: UIControlState.Normal)
+        reportNavigationController.view.addSubview(button)
         
         view.addSubview(reportNavigationController.view)
         addChildViewController(reportNavigationController)
