@@ -292,6 +292,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         reloadView("Summary", destinationType: menuItem.title)
     }
     
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        self.loadData()
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    }
+    
 
     /*
     // MARK: - Navigation
