@@ -100,7 +100,7 @@
                                                 <constraint firstItem="K6H-ol-jEL" firstAttribute="leading" secondItem="wNV-2Q-xci" secondAttribute="leading" constant="8" id="xna-W0-Uqh"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="dataLabel" destination="TLN-kx-aSg" id="BE2-YT-en3"/>
                                             <outlet property="differenceLabel" destination="a1f-4M-Sgr" id="JNz-ib-qBT"/>

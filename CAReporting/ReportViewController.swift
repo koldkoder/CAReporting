@@ -55,7 +55,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             setNavTitle()
             loadData()
         }
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -77,6 +76,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         switch currentState! {
         case ViewState.Summary:
             self.reportTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+            self.reportTableView.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
             let endpointUrl = getSummaryEndpoint()
             CARClient.sharedInstance.getSummary(endpointUrl, completion: { (summaries, error) -> () in
                 JTProgressHUD.hide()
