@@ -16,11 +16,13 @@ enum ViewState{
 
 enum DestinationType {
     case Ads
-    case SCM
+    case SEM
 }
 
 @objc protocol ReportViewControllerDelegate {
     optional func collapseSidePanels()
+    optional func hideHamburgerButton()
+    optional func showHamburgerButton()
 }
 
 class ReportViewController:  UIViewController, UITableViewDataSource, UITableViewDelegate, SidePanelViewControllerDelegate{
@@ -48,6 +50,21 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         if currentState != nil && currentDestination != nil {
             setNavTitle()
             loadData()
+        }
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        if currentState != nil {
+            switch currentState! {
+            case ViewState.Summary:
+                delegate?.hideHamburgerButton!()
+                break;
+            case ViewState.Detail:
+                delegate?.showHamburgerButton!()
+                break;
+            }
         }
         
     }
@@ -80,8 +97,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         case DestinationType.Ads:
             navigationItem.title = "Ads"
             break
-        case DestinationType.SCM:
-            navigationItem.title = "SCM"
+        case DestinationType.SEM:
+            navigationItem.title = "SEM"
             break
         }
     }
@@ -128,12 +145,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         print(indexPath.row)
         switch currentState! {
         case ViewState.Summary:
-            //var summary = summaries![indexPath.row]
             let reportViewController = UIStoryboard.reportViewController()
             reportViewController?.currentDestination = currentDestination
             reportViewController?.currentState = ViewState.Detail
+            reportViewController?.delegate = self.delegate
             navigationController?.pushViewController(reportViewController!, animated: true)
-            
             break
         case ViewState.Detail:
             break
@@ -151,15 +167,13 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         }
         
         var destination = DestinationType.Ads
-        if destinationType == "SCM" {
-            destination = DestinationType.SCM
+        if destinationType == "SEM" {
+            destination = DestinationType.SEM
         }
 
         
         let containerViewController = ContainerViewController (viewState: viewState, destinationType: destination)
-        
         presentViewController(containerViewController, animated: true) { () -> Void in
-            
         }
         
         delegate?.collapseSidePanels?()
@@ -181,8 +195,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         }
         
         switch destinationType {
-        case "SCM":
-            containerViewController.reportViewController.currentDestination = DestinationType.SCM
+        case "SEM":
+            containerViewController.reportViewController.currentDestination = DestinationType.SEM
         case "Ads":
             containerViewController.reportViewController.currentDestination = DestinationType.Ads
         default:
@@ -209,11 +223,21 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     func getSummaryEndpoint() -> String {
         switch currentDestination! {
-        case DestinationType.SCM:
+        case DestinationType.SEM:
                 return "http://sem-dev05.sv.walmartlabs.com:3000/api/metrics/summary.json"
         case DestinationType.Ads:
                 return "https://wmx.walmartlabs.com/wpa/organizations/10001/organization_reports/1/summary?field_description=true&user_token=249e2db392fc0d55b484f53464e4e689b7bd6830ba8987927af5b9a8677e9b6edeb77f83722028dca672793a41199d36af34e68cee8ab0604c42216b07b5e399"
     
+        }
+    }
+    
+    func getDetailEndpoint() -> String {
+        switch currentDestination! {
+        case DestinationType.SEM:
+            return "http://sem-dev05.sv.walmartlabs.com:3000/api/metrics/summary.json"
+        case DestinationType.Ads:
+            return "https://wmx.walmartlabs.com/wpa/organizations/10001/organization_reports/1/summary?field_description=true&user_token=249e2db392fc0d55b484f53464e4e689b7bd6830ba8987927af5b9a8677e9b6edeb77f83722028dca672793a41199d36af34e68cee8ab0604c42216b07b5e399"
+            
         }
     }
 

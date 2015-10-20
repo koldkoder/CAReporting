@@ -24,7 +24,7 @@ class MenuItem {
     
     class func allMenuItems() -> Array<MenuItem> {
         return [MenuItem(title: "Ads"),
-            MenuItem(title: "SCM"),
+            MenuItem(title: "SEM"),
             MenuItem(title: "SEO")]
     }
 }

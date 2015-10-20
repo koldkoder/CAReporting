@@ -16,13 +16,14 @@ class ContainerViewController: UIViewController {
     
     var reportViewState: ViewState?
     var reportDestinationType: DestinationType?
+    var hamburgerButton: UIButton?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     convenience init() {
-        self.init(viewState: ViewState.Summary, destinationType: DestinationType.SCM)
+        self.init(viewState: ViewState.Summary, destinationType: DestinationType.SEM)
     }
     
     init(viewState: ViewState, destinationType: DestinationType) {
@@ -39,12 +40,20 @@ class ContainerViewController: UIViewController {
     
     func openSidePanel() {
         if !leftNavExpanded {
-          addLeftPanelViewController()
-          animateLeftPanel(true)
+            addLeftPanelViewController()
+            animateLeftPanel(true)
         }
         else {
             animateLeftPanel(false)
         }
+    }
+    
+    func hideHamburgerButton() {
+        hamburgerButton?.hidden = true
+    }
+    
+    func showHamburgerButton() {
+        hamburgerButton?.hidden = false
     }
     
     var leftViewController: SidePanelViewController?
@@ -60,17 +69,15 @@ class ContainerViewController: UIViewController {
         reportNavigationController = UIStoryboard.reportNavigationController()
         reportNavigationController.setViewControllers( [reportViewController], animated: true)
         
-        let hambugerImage = UIImage(named: "hamburger")
-        
-        let button = UIButton(type: UIButtonType.Custom)
-        button.setBackgroundImage(hambugerImage, forState: UIControlState.Normal)
-        
-        button.addTarget(self, action: "openSidePanel", forControlEvents: UIControlEvents.TouchUpInside)
+        let hamburgerImage = UIImage(named: "hamburger")
+        hamburgerButton = UIButton(type: UIButtonType.Custom)
+        hamburgerButton!.setBackgroundImage(hamburgerImage, forState: UIControlState.Normal)
+        hamburgerButton!.addTarget(self, action: "openSidePanel", forControlEvents: UIControlEvents.TouchUpInside)
         
         let frame = CGRectMake(10, 30, 32, 32)
-        button.frame = frame;
-        button.setBackgroundImage(hambugerImage, forState: UIControlState.Normal)
-        reportNavigationController.view.addSubview(button)
+        hamburgerButton!.frame = frame;
+        hamburgerButton!.setBackgroundImage(hamburgerImage, forState: UIControlState.Normal)
+        reportNavigationController.view.addSubview(hamburgerButton!)
         
         view.addSubview(reportNavigationController.view)
         addChildViewController(reportNavigationController)
