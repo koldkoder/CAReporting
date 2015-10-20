@@ -110,9 +110,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func addGraph(detail:Detail) {
         let y = self.navigationController?.navigationBar.frame.height
         var frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
+        var showGridLines = false
         
         if(self.orientation == "landscape"){
-            frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height - 50)
+            showGridLines = true
+            frame = CGRectMake(self.view.frame.origin.x, y!, self.view.frame.width, self.view.frame.height-23)
         }
         self.topConstraint.constant = 200
         //Remove existing chart
@@ -138,21 +140,23 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         chart.legend.enabled = false
         chart.xAxis.enabled = true
         chart.xAxis.drawGridLinesEnabled = true
-        chart.xAxis.labelPosition = .Bottom
-        chart.xAxis.drawLabelsEnabled = false
+        chart.xAxis.labelPosition = .BottomInside
+        chart.xAxis.drawLabelsEnabled = showGridLines
         chart.xAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
 
-        chart.leftAxis.enabled = false
-        chart.leftAxis.drawLabelsEnabled = false
+        chart.leftAxis.enabled = showGridLines
+        chart.leftAxis.drawLabelsEnabled = showGridLines
         chart.leftAxis.drawGridLinesEnabled = true
         chart.leftAxis.gridLineWidth = 0.5
+        chart.leftAxis.labelPosition = .InsideChart
+        chart.leftAxis.labelTextColor = UIColor.blackColor()
         chart.leftAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
         
-        chart.rightAxis.enabled = false
+        chart.rightAxis.enabled = showGridLines
         chart.rightAxis.drawLabelsEnabled = false
-        chart.rightAxis.drawGridLinesEnabled = false
+        chart.rightAxis.drawGridLinesEnabled = showGridLines
         chart.rightAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
-
+        
         var xVals = [String]()
         let yVals = LineChartDataSet()
         yVals.circleRadius = 0
