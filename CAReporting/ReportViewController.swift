@@ -94,12 +94,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             CARClient.sharedInstance.getDetails(endpointUrl, completion: { (details, error) -> () in
                 JTProgressHUD.hide()
                 if (details != nil) {
-                    if(self.orientation == "potrait"){
-                        self.reportTableView.hidden = false
-                    }else{
-                        self.reportTableView.hidden = true
-                    }
-                    
                     self.details = details
                     if (self.details![self.selectedGraphMetric].hasGraph()) {
                         print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
@@ -110,8 +104,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
                         self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height - 50)
                     }else if(self.orientation == "potrait"){
                         self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
-                        self.chart.setNeedsDisplay()
-                        
                     }
                     self.reportTableView.reloadData()
                 }
