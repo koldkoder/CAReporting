@@ -120,7 +120,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         
         if(self.orientation == "landscape"){
             showGridLines = true
-            frame = CGRectMake(self.view.frame.origin.x, y!, self.view.frame.width, self.view.frame.height-23)
+            frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height-40)
             saveChartButton = UIButton(type: UIButtonType.System)
             saveChartButton.frame  = CGRectMake(0, y!+5, 40, 40)
             saveChartButton.backgroundColor = UIColor.lightGrayColor()
