@@ -114,6 +114,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         self.view.addSubview(chart)
 
         chart.descriptionText = detail.displayString
+        chart.descriptionFont = UIFont(name: "Helvetica Neue", size: 17.0)
         chart.noDataTextDescription = "Data not available."
         
         chart.drawGridBackgroundEnabled = false
@@ -121,21 +122,29 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         chart.highlightEnabled = true
         chart.setScaleEnabled(true)
         chart.pinchZoomEnabled = false
-        chart.setViewPortOffsets(left: 20, top: 10, right: 20, bottom: 10)
+        chart.setViewPortOffsets(left: 20, top: 20, right: 20, bottom: 20)
         
         chart.legend.enabled = false
-        chart.leftAxis.enabled = false
-        chart.rightAxis.enabled = false
         chart.xAxis.enabled = false
         
+        chart.leftAxis.enabled = true
+        chart.leftAxis.drawLabelsEnabled = false
+        chart.leftAxis.drawGridLinesEnabled = true
+        chart.leftAxis.gridColor = UIColor.lightGrayColor()
+        
+        chart.rightAxis.enabled = true
+        chart.rightAxis.drawLabelsEnabled = false
+        chart.rightAxis.drawGridLinesEnabled = false
+        chart.rightAxis.gridColor = UIColor.lightGrayColor()
+
         var xVals = [String]()
         let yVals = LineChartDataSet()
         yVals.circleRadius = 2
-        let blueColor = UIColor(red: 0.05, green: 0.6, blue: 0.93, alpha: 1)
-        yVals.circleColors = [blueColor]
-        yVals.circleHoleColor = blueColor
-        yVals.colors = [blueColor]
+        yVals.circleColors = [ChartColorTemplates.colorful()[1]]
+        yVals.circleHoleColor = ChartColorTemplates.colorful()[1]
+        yVals.colors = [ChartColorTemplates.colorful()[1]]
         yVals.lineWidth = 1.5
+        yVals.drawValuesEnabled = false
 
         var index = 0
         for dataItem in detail.data {
@@ -148,7 +157,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         
         chart.data = LineChartData(xVals: xVals, dataSet: yVals)
         
-        chart.animate(xAxisDuration: 1)
+        chart.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
     }
     
     func setNavTitle() {
@@ -163,6 +172,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             navigationItem.title = "SEM"
             break
         }
+    }
+    
+    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+        let valueString = self.details![self.selectedGraphMetric].getValueString(entry.value)
+        chartView.descriptionText = self.details![self.selectedGraphMetric].displayString + ": \(valueString)"
     }
 
     override func didReceiveMemoryWarning() {
@@ -218,7 +232,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             break
         case ViewState.Detail:
             self.selectedGraphMetric = indexPath.row
-            loadData()
+            print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
+            self.addGraph(self.details![self.selectedGraphMetric])
             break
             
         }

@@ -20,29 +20,40 @@ class Detail: NSObject {
     init(key: String, value: Double, fieldDescription: NSDictionary, data: [NSDictionary]) {
         self.displayString = fieldDescription["displayString"] as! String
         self.value = value
-        self.type = fieldDescription["type"] as! String
+        let type = fieldDescription["type"] as! String
+        self.type = type
         self.key = key
-        if(self.type != nil) {
-            switch(self.type) {
-                case "float":
-                    self.valueString = String(format: "%.2f", self.value)
-                    break
-                case "currency":
-                    self.valueString = "$" + String(format: "%.2f", self.value)
-                    break
-                case "percent":
-                    self.valueString = String(format: "%.2f", self.value) + "%"
-                    break
-                default:
-                    self.valueString = String(format: "%.0f", self.value)
-                    break
-            }
-        }
         self.data = data
+    }
+    
+    func setValueString() {
+        self.valueString = getValueString(self.value)
     }
     
     func hasGraph() -> Bool {
         return self.data.count > 1
+    }
+    
+    func getValueString(value: Double) -> String {
+        var string = ""
+        if self.type != nil {
+            switch(self.type) {
+            case "float":
+                string = String(format: "%.2f", value)
+                break
+            case "currency":
+                string = "$" + String(format: "%.2f", value)
+                break
+            case "percent":
+                string = String(format: "%.2f", value) + "%"
+                break
+            default:
+                string = String(format: "%.0f", value)
+                break
+            }
+        }
+        return string
+
     }
     
     class func detailWithArray(dict: NSDictionary) -> [Detail] {
@@ -53,7 +64,9 @@ class Detail: NSObject {
         for (key, fieldData) in fieldDescription {
             let value = summary[key as! String]
             if (value != nil) {
-                details.append(Detail(key: key as! String, value: value as! Double, fieldDescription: fieldData as! NSDictionary, data: data))
+                let detail = Detail(key: key as! String, value: value as! Double, fieldDescription: fieldData as! NSDictionary, data: data)
+                detail.setValueString()
+                details.append(detail)
             }
         }
         return details
