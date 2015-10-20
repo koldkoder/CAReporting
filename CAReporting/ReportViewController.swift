@@ -107,45 +107,50 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func addGraph(detail:Detail) {
         self.topConstraint.constant = 200
         let y = self.navigationController?.navigationBar.frame.height
-        let frame = CGRectMake(self.view.frame.origin.x, y!+5, self.view.frame.width, 200)
+        let frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
         let chart = LineChartView(frame: frame)
-        chart.layer.borderColor = UIColor.lightGrayColor().CGColor
-        chart.layer.borderWidth = 1
+
         chart.delegate = self
         chart.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(chart)
 
         chart.descriptionText = detail.displayString
         chart.descriptionFont = UIFont(name: "Helvetica Neue", size: 17.0)
+        chart.descriptionTextColor = UIColor.blackColor()
         chart.noDataTextDescription = "Data not available."
         
-        chart.drawGridBackgroundEnabled = false
+        chart.drawGridBackgroundEnabled = true
         chart.dragEnabled = true
         chart.highlightEnabled = true
         chart.setScaleEnabled(true)
         chart.pinchZoomEnabled = false
-        chart.setViewPortOffsets(left: 20, top: 20, right: 20, bottom: 20)
+        chart.setViewPortOffsets(left: 0, top: 0, right: 0, bottom: 10)
         
         chart.legend.enabled = false
-        chart.xAxis.enabled = false
-        
-        chart.leftAxis.enabled = true
+        chart.xAxis.enabled = true
+        chart.xAxis.drawGridLinesEnabled = true
+        chart.xAxis.labelPosition = .Bottom
+        chart.xAxis.drawLabelsEnabled = false
+        chart.xAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
+
+        chart.leftAxis.enabled = false
         chart.leftAxis.drawLabelsEnabled = false
         chart.leftAxis.drawGridLinesEnabled = true
-        chart.leftAxis.gridColor = UIColor.lightGrayColor()
+        chart.leftAxis.gridLineWidth = 0.5
+        chart.leftAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
         
-        chart.rightAxis.enabled = true
+        chart.rightAxis.enabled = false
         chart.rightAxis.drawLabelsEnabled = false
         chart.rightAxis.drawGridLinesEnabled = false
-        chart.rightAxis.gridColor = UIColor.lightGrayColor()
+        chart.rightAxis.gridColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
 
         var xVals = [String]()
         let yVals = LineChartDataSet()
-        yVals.circleRadius = 2
+        yVals.circleRadius = 0
         yVals.circleColors = [ChartColorTemplates.colorful()[1]]
         yVals.circleHoleColor = ChartColorTemplates.colorful()[1]
         yVals.colors = [ChartColorTemplates.colorful()[1]]
-        yVals.lineWidth = 1.5
+        yVals.lineWidth = 2
         yVals.drawValuesEnabled = false
 
         var index = 0
