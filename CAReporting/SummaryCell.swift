@@ -15,6 +15,7 @@ import UIKit
 
 class SummaryCell: UITableViewCell {
 
+    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var keyLabel: UILabel!
     @IBOutlet weak var dataLabel: UILabel!
     @IBOutlet weak var differenceLabel: UILabel!
@@ -24,6 +25,10 @@ class SummaryCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        mainView.layer.masksToBounds = false
+        mainView.layer.shadowOffset = CGSizeMake(0, 0)
+        mainView.layer.shadowRadius = 2
+        mainView.layer.shadowOpacity = 0.3
     }
     
     var summary: Summary! {

@@ -75,6 +75,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func loadData() {
         switch currentState! {
         case ViewState.Summary:
+            self.reportTableView.separatorStyle = UITableViewCellSeparatorStyle.None
             let endpointUrl = getSummaryEndpoint()
             CARClient.sharedInstance.getSummary(endpointUrl, completion: { (summaries, error) -> () in
                 JTProgressHUD.hide()
@@ -85,6 +86,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             })
             break
         case ViewState.Detail:
+            self.reportTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             let endpointUrl = getDetailEndpoint()
             CARClient.sharedInstance.getDetails(endpointUrl, completion: { (details, error) -> () in
                 JTProgressHUD.hide()
@@ -232,8 +234,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             break
         case ViewState.Detail:
             self.selectedGraphMetric = indexPath.row
-            print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
-            self.addGraph(self.details![self.selectedGraphMetric])
+            let detailToBePlotted = self.details![self.selectedGraphMetric]
+            if (detailToBePlotted.hasGraph()) {
+                print("Plotting graph for \(detailToBePlotted.key)")
+                self.addGraph(detailToBePlotted)
+            }
             break
             
         }
