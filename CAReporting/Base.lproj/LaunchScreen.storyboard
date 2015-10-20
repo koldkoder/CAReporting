@@ -16,8 +16,21 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walmart-logo-with-spark" translatesAutoresizingMaskIntoConstraints="NO" id="2Qb-GR-xvS">
+                                <rect key="frame" x="159" y="263" width="282" height="74"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="282" id="648-Ib-vgW"/>
+                                    <constraint firstAttribute="height" constant="74" id="Kmb-En-ceI"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2Qb-GR-xvS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="O21-dW-dJd"/>
+                            <constraint firstItem="2Qb-GR-xvS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="RQJ-CM-EDx"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -25,4 +38,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="walmart-logo-with-spark" width="188" height="49"/>
+    </resources>
 </document>
