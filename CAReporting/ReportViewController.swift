@@ -38,7 +38,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var delegate: ReportViewControllerDelegate?
     var selectedSummary: Summary?
     var selectedGraphMetric = 0
-    var orientation = "potrait"
+    var orientation = ""
+    var chart = LineChartView();
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -53,6 +54,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         self.topConstraint.constant = 0
         if currentState != nil && currentDestination != nil {
             setNavTitle()
+            setCurrentOrientation(self.view.frame.size)
             loadData()
         }
     }
@@ -103,6 +105,14 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
                         print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
                         self.addGraph(self.details![self.selectedGraphMetric])
                     }
+                    let y = self.navigationController?.navigationBar.frame.height
+                    if(self.orientation == "landscape"){
+                        self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height - 50)
+                    }else if(self.orientation == "potrait"){
+                        self.chart.frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
+                        self.chart.setNeedsDisplay()
+                        
+                    }
                     self.reportTableView.reloadData()
                 }
             })
@@ -115,7 +125,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         self.topConstraint.constant = 200
         let y = self.navigationController?.navigationBar.frame.height
         let frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
-        let chart = LineChartView(frame: frame)
+        chart = LineChartView(frame: frame)
 
         chart.delegate = self
         chart.backgroundColor = UIColor.whiteColor()
@@ -309,14 +319,23 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         reloadView("Summary", destinationType: menuItem.title)
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    func setCurrentOrientation(size: CGSize) -> Bool {
+        var changed = false
         if currentState! == ViewState.Detail{
+            let oldOrientation = self.orientation
             if size.width > size.height {
-                orientation = "landscape"
+                self.orientation = "landscape"
             }else{
-                orientation = "potrait"
+                self.orientation = "potrait"
             }
-            self.loadData()
+            changed = (self.orientation != oldOrientation)
+        }
+        return changed
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        if(setCurrentOrientation(size)){
+            loadData()
         }
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
     }
