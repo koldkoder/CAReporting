@@ -8,6 +8,7 @@
 
 import UIKit
 import JTProgressHUD
+import Charts
 
 enum ViewState{
     case Summary
@@ -25,7 +26,7 @@ enum DestinationType {
     optional func showHamburgerButton()
 }
 
-class ReportViewController:  UIViewController, UITableViewDataSource, UITableViewDelegate, SidePanelViewControllerDelegate{
+class ReportViewController:  UIViewController, UITableViewDataSource, UITableViewDelegate, SidePanelViewControllerDelegate, ChartViewDelegate{
 
     @IBOutlet weak var reportTableView: UITableView!
     
@@ -37,6 +38,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var delegate: ReportViewControllerDelegate?
     var selectedSummary: Summary?
 
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +48,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         reportTableView.rowHeight = UITableViewAutomaticDimension
         reportTableView.estimatedRowHeight = 100
         JTProgressHUD.show()
- 
+        self.topConstraint.constant = 0
         if currentState != nil && currentDestination != nil {
             setNavTitle()
             loadData()
@@ -87,12 +89,64 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
                 JTProgressHUD.hide()
                 if (details != nil) {
                     self.details = details
+                    if (self.details![0].hasGraph()) {
+                        self.addGraph(self.details![0])
+                    }
                     self.reportTableView.reloadData()
                 }
             })
             break
         }
         
+    }
+    
+    func addGraph(detail:Detail) {
+        self.topConstraint.constant = 200
+        let y = self.navigationController?.navigationBar.frame.height
+        let frame = CGRectMake(self.view.frame.origin.x, y!+5, self.view.frame.width, 200)
+        let chart = LineChartView(frame: frame)
+        chart.layer.borderColor = UIColor.lightGrayColor().CGColor
+        chart.layer.borderWidth = 1
+        chart.delegate = self
+        chart.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(chart)
+
+        chart.descriptionText = detail.displayString
+        chart.noDataTextDescription = "Data not available."
+        
+        chart.drawGridBackgroundEnabled = false
+        chart.dragEnabled = true
+        chart.highlightEnabled = true
+        chart.setScaleEnabled(true)
+        chart.pinchZoomEnabled = false
+        chart.setViewPortOffsets(left: 20, top: 10, right: 20, bottom: 10)
+        
+        chart.legend.enabled = false
+        chart.leftAxis.enabled = false
+        chart.rightAxis.enabled = false
+        chart.xAxis.enabled = false
+        
+        var xVals = [String]()
+        let yVals = LineChartDataSet()
+        yVals.circleRadius = 2
+        let blueColor = UIColor(red: 0.05, green: 0.6, blue: 0.93, alpha: 1)
+        yVals.circleColors = [blueColor]
+        yVals.circleHoleColor = blueColor
+        yVals.colors = [blueColor]
+        yVals.lineWidth = 1.5
+
+        var index = 0
+        for dataItem in detail.data {
+            let metrics = dataItem["metrics"] as! NSDictionary
+            let dateString = dataItem["date"] as! String
+            xVals.append(dateString)
+            let chartDataEntry = ChartDataEntry(value: metrics[detail.key] as! Double, xIndex: index++)
+            yVals.addEntry(chartDataEntry)
+        }
+        
+        chart.data = LineChartData(xVals: xVals, dataSet: yVals)
+        
+        chart.animate(xAxisDuration: 1)
     }
     
     func setNavTitle() {

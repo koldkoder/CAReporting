@@ -15,11 +15,13 @@ class Detail: NSObject {
     var value: Double!
     var type: String!
     var valueString: String!
+    var data: [NSDictionary]!
 
-    init(value: Double, fieldDescription: NSDictionary) {
+    init(key: String, value: Double, fieldDescription: NSDictionary, data: [NSDictionary]) {
         self.displayString = fieldDescription["displayString"] as! String
         self.value = value
         self.type = fieldDescription["type"] as! String
+        self.key = key
         if(self.type != nil) {
             switch(self.type) {
                 case "float":
@@ -36,16 +38,22 @@ class Detail: NSObject {
                     break
             }
         }
+        self.data = data
+    }
+    
+    func hasGraph() -> Bool {
+        return self.data.count > 1
     }
     
     class func detailWithArray(dict: NSDictionary) -> [Detail] {
         var details = [Detail]()
         let fieldDescription = dict["fieldDescription"] as! NSDictionary
         let summary = dict["summary"] as! NSDictionary
+        let data = dict["data"] as! [NSDictionary]
         for (key, fieldData) in fieldDescription {
             let value = summary[key as! String]
             if (value != nil) {
-                details.append(Detail(value: value as! Double, fieldDescription: fieldData as! NSDictionary))
+                details.append(Detail(key: key as! String, value: value as! Double, fieldDescription: fieldData as! NSDictionary, data: data))
             }
         }
         return details

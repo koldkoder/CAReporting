@@ -175,6 +175,7 @@
                     <navigationItem key="navigationItem" id="toh-XK-PrG"/>
                     <connections>
                         <outlet property="reportTableView" destination="pzg-dN-KIY" id="FC0-HA-UKU"/>
+                        <outlet property="topConstraint" destination="Aha-Fe-xly" id="Wx9-Kq-d6g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Pm-7X-kMn" userLabel="First Responder" sceneMemberID="firstResponder"/>
