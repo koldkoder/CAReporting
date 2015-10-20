@@ -53,8 +53,28 @@ class ContainerViewController: UIViewController {
     }
     
     func showHamburgerButton() {
+        if (self.view.frame.height > self.view.frame.width) {
+            let frame = CGRectMake(10, 30, 32, 32)
+            hamburgerButton!.frame = frame;
+        }
+        else {
+            let frame = CGRectMake(10, 0, 32, 32)
+            hamburgerButton!.frame = frame;
+        }
         hamburgerButton?.hidden = false
     }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+            if size.height > size.width {
+                let frame = CGRectMake(10, 30, 32, 32)
+                hamburgerButton!.frame = frame;
+            }else{
+                let frame = CGRectMake(10, 0, 32, 32)
+                hamburgerButton!.frame = frame;
+            }
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    }
+
     
     var leftViewController: SidePanelViewController?
     let centerPanelExpandedOffset: CGFloat = 60
@@ -74,8 +94,7 @@ class ContainerViewController: UIViewController {
         hamburgerButton!.setBackgroundImage(hamburgerImage, forState: UIControlState.Normal)
         hamburgerButton!.addTarget(self, action: "openSidePanel", forControlEvents: UIControlEvents.TouchUpInside)
         
-        let frame = CGRectMake(10, 30, 32, 32)
-        hamburgerButton!.frame = frame;
+        showHamburgerButton()
         hamburgerButton!.setBackgroundImage(hamburgerImage, forState: UIControlState.Normal)
         reportNavigationController.view.addSubview(hamburgerButton!)
         
