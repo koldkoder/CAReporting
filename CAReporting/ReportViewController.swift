@@ -40,7 +40,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var selectedGraphMetric = 0
     var orientation = ""
     var chart = LineChartView();
-    var saveChartButton = UIButton();
+    var saveChartButton: UIBarButtonItem!
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -53,11 +53,23 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         reportTableView.estimatedRowHeight = 100
         JTProgressHUD.show()
         self.topConstraint.constant = 0
+        saveChartButton = UIBarButtonItem(title:"Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveChart")
+        saveChartButton.width = 0
+        
         if currentState != nil && currentDestination != nil {
             setNavTitle()
             setCurrentOrientation(self.view.frame.size)
             loadData()
         }
+
+    }
+    
+    func saveChart() {
+        self.chart.saveToCameraRoll()
+        let alert = UIAlertView()
+        alert.message = "Saved To Camera Roll"
+        alert.addButtonWithTitle("OK")
+        alert.show()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -78,6 +90,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     func loadData() {
         switch currentState! {
         case ViewState.Summary:
+            self.navigationItem.rightBarButtonItem = nil
             self.reportTableView.separatorStyle = UITableViewCellSeparatorStyle.None
             self.reportTableView.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
             let endpointUrl = getSummaryEndpoint()
@@ -108,14 +121,6 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         
     }
     
-    func onSaveChart(sender: UIButton!){
-        self.chart.saveToCameraRoll()
-        let alert = UIAlertView()
-        alert.message = "Saved To Camera Roll"
-        alert.addButtonWithTitle("OK")
-        alert.show()
-    }
-    
     func addGraph(detail:Detail) {
         self.topConstraint.constant = 200
         let y = self.navigationController?.navigationBar.frame.height
@@ -124,17 +129,11 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         
         if(self.orientation == "landscape"){
             showGridLines = true
-            frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, self.view.frame.height-40)
-            saveChartButton = UIButton(type: UIButtonType.System)
-            saveChartButton.frame  = CGRectMake(0, y!+5, 40, 40)
-            saveChartButton.backgroundColor = UIColor.lightGrayColor()
-            saveChartButton.setTitle("Test Button", forState: UIControlState.Normal)
-            saveChartButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-            saveChartButton.addTarget(self, action: "onSaveChart:", forControlEvents: UIControlEvents.TouchUpInside)
-            self.view.addSubview(saveChartButton)
+            frame = CGRectMake(self.view.frame.origin.x, y!, self.view.frame.width, self.view.frame.height-23)
+            self.navigationItem.rightBarButtonItem = saveChartButton
         }else{
             //Remove Existing Button if not landscape
-            saveChartButton.removeFromSuperview()
+            self.navigationItem.rightBarButtonItem = nil
         }
         //Remove existing chart
         chart.removeFromSuperview()
