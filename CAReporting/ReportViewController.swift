@@ -40,6 +40,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     var selectedGraphMetric = 0
     var orientation = ""
     var chart = LineChartView();
+    var saveChartButton = UIButton();
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -107,7 +108,12 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         
     }
     
+    func onSaveChart(sender: UIButton!){
+        self.chart.saveToCameraRoll()
+    }
+    
     func addGraph(detail:Detail) {
+        self.topConstraint.constant = 200
         let y = self.navigationController?.navigationBar.frame.height
         var frame = CGRectMake(self.view.frame.origin.x, y!+20, self.view.frame.width, 200)
         var showGridLines = false
@@ -115,8 +121,17 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
         if(self.orientation == "landscape"){
             showGridLines = true
             frame = CGRectMake(self.view.frame.origin.x, y!, self.view.frame.width, self.view.frame.height-23)
+            saveChartButton = UIButton(type: UIButtonType.System)
+            saveChartButton.frame  = CGRectMake(0, y!+5, 40, 40)
+            saveChartButton.backgroundColor = UIColor.lightGrayColor()
+            saveChartButton.setTitle("Test Button", forState: UIControlState.Normal)
+            saveChartButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+            saveChartButton.addTarget(self, action: "onSaveChart:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.view.addSubview(saveChartButton)
+        }else{
+            //Remove Existing Button if not landscape
+            saveChartButton.removeFromSuperview()
         }
-        self.topConstraint.constant = 200
         //Remove existing chart
         chart.removeFromSuperview()
         chart = LineChartView(frame: frame)
