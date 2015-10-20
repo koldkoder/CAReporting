@@ -37,6 +37,7 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     var delegate: ReportViewControllerDelegate?
     var selectedSummary: Summary?
+    var selectedGraphMetric = 0
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
@@ -89,8 +90,9 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
                 JTProgressHUD.hide()
                 if (details != nil) {
                     self.details = details
-                    if (self.details![0].hasGraph()) {
-                        self.addGraph(self.details![0])
+                    if (self.details![self.selectedGraphMetric].hasGraph()) {
+                        print("Plotting graph for \(self.details![self.selectedGraphMetric].key)")
+                        self.addGraph(self.details![self.selectedGraphMetric])
                     }
                     self.reportTableView.reloadData()
                 }
@@ -215,6 +217,8 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
             navigationController?.pushViewController(reportViewController!, animated: true)
             break
         case ViewState.Detail:
+            self.selectedGraphMetric = indexPath.row
+            loadData()
             break
             
         }
