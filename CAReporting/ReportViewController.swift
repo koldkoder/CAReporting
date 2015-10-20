@@ -110,6 +110,10 @@ class ReportViewController:  UIViewController, UITableViewDataSource, UITableVie
     
     func onSaveChart(sender: UIButton!){
         self.chart.saveToCameraRoll()
+        let alert = UIAlertView()
+        alert.message = "Saved To Camera Roll"
+        alert.addButtonWithTitle("OK")
+        alert.show()
     }
     
     func addGraph(detail:Detail) {
