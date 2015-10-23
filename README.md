@@ -8,5 +8,10 @@ But our long term vision was to enable anybody graph their teams performance by 
 
 The team members working on this app were: Chintan Rita, Kushal Shah and Saurabh Shah.
 
+### Video Walkthrough:
+
+#### Portrait Mode
 ![Video Walkthrough -> Portrait Mode](carreporting.gif)
+
+#### Landscape Mode
 ![Video Walkthrough -> Landscape Mode](carreporting-2.gif)
